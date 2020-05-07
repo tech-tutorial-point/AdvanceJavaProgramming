@@ -1,0 +1,7 @@
+/JDBCDemo/*.project
+/JDBCDemo/.settings/org.eclipse.jdt.core.prefs
+*.class
+.metadata
+.settings
+/ServletDemo/*.classpath
+/ServletDemo/.project
