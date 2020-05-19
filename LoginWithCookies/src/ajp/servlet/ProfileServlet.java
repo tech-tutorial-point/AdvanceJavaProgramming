@@ -1,25 +1,26 @@
-package ajp.servlet.demo;
+package ajp.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet implementation class Success
+ * Servlet implementation class ProfileServlet
  */
-@WebServlet("/Success")
-public class Success extends HttpServlet {
+@WebServlet("/ProfileServlet")
+public class ProfileServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Success() {
+    public ProfileServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,9 +31,28 @@ public class Success extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		//Send redirect
-		PrintWriter out = response.getWriter();
-		out.print("<h1> <marquee width='100%' direction='right' height='100%' bgcolor='#FFFF66' scrollamount='5'> You are an authorized user </marquee> </h1>");
+		response.setContentType("text/html");
+		PrintWriter out=response.getWriter();
+		
+		request.getRequestDispatcher("link.html").include(request, response);
+		
+		Cookie ck[]=request.getCookies();
+		if(ck!=null){
+			String name=ck[0].getValue();
+		if(!name.equals("")||name!=null){
+			out.print("<b>Welcome to your profile page!!</b>");
+			out.print("<br>Login Name:, "+name+ "<br>");
+			out.print("<br>Organization:Oracle<br>");
+			out.print("<br>Team Name: JIRA-DEV <br>");
+			out.print("<br>Role:Developer <br>");
+			out.print("<br>Experience:5 years<br>");
+		 }
+		}
+		else{
+			out.print("Please login first");
+			request.getRequestDispatcher("login.html").include(request, response);
+		}
+		out.close();
 	}
 
 	/**
@@ -40,11 +60,7 @@ public class Success extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//doGet(request, response);
-		//Request Dispatcher
-		PrintWriter out = response.getWriter();
-	    //out.print("<img src='C:/JIIT/EVen-2020/success.png' width=300 heigth=300/>");	
-	    out.print("<img src='file:///C:/JIIT/EVen-2020/success.png' width=500 height=300/>");	
+		doGet(request, response);
 	}
 
 }
